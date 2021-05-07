@@ -2,28 +2,14 @@
     "name": "Meditation Chrome Extension",
     "description": "Meditation Reminder",
     "version": "1.0",
-    "manifest_version": 3,
+    "manifest_version": 2,
     "background": {
-        "service_worker": "background.js"
+        "scripts": ["background.js"]
     },
     "permissions": [
-        "notifications",
-        "tabs",
-        "contextMenus"
+        "notifications"
     ],
-    "action": {
+    "browser_action": {
         "default_popup": "popup.html"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "http://*/*",
-                "https://*/*"
-            ],
-            "match_about_blank": true,
-            "js": [
-                "content.js"
-            ]
-        }
-    ]
+    }
 }
