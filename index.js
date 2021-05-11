@@ -1,9 +1,11 @@
 const startBtn = document.getElementById('startBtn')
 const timerDisplay = document.getElementById('timerDisplay')
 const pauseBtn = document.getElementById('pauseBtn')
+const reminderBtn = document.getElementById('reminderBtn')
 
 const startingMinutes = parseInt(timerDisplay.innerHTML)
 let time = startingMinutes*60
+let interval = -1
 
 function createNotification() {    
     chrome.notifications.create('reminder', {
@@ -31,11 +33,14 @@ function countDown() {
 }
 
 function startTimer() {
-    setInterval(countDown,1000)
+    interval = setInterval(countDown,1000)
+}
+
+function pauseTimer() {
+    clearInterval(interval)
+    interval = -1
 }
 
 startBtn.addEventListener('click', startTimer)
-
-const reminderBtn = document.getElementById('reminderBtn')
 reminderBtn.addEventListener('click', createNotification)
-pauseBtn.addEventListener('click', startTimer)
+pauseBtn.addEventListener('click', pauseTimer)
