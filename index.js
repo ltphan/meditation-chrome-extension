@@ -1,10 +1,13 @@
 const startBtn = document.getElementById('startBtn')
 const timerDisplay = document.getElementById('timerDisplay')
 const pauseBtn = document.getElementById('pauseBtn')
+const resetBtn = document.getElementById('resetBtn')
 const reminderBtn = document.getElementById('reminderBtn')
 
 const startingMinutes = parseInt(timerDisplay.innerHTML)
 let time = startingMinutes*60
+let minutes = Math.floor(time / 60)
+let seconds  = Math.floor(time % 60)
 let interval = -1
 
 function createNotification() {    
@@ -41,6 +44,14 @@ function pauseTimer() {
     interval = -1
 }
 
+function resetTimer() {
+    clearInterval(time=startingMinutes*60)
+    clearInterval(interval)
+    timerDisplay.innerText = "10:00"
+    interval = -1   
+}
+
 startBtn.addEventListener('click', startTimer)
 reminderBtn.addEventListener('click', createNotification)
 pauseBtn.addEventListener('click', pauseTimer)
+resetBtn.addEventListener('click', resetTimer)
