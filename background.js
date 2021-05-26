@@ -3,26 +3,37 @@ let cryptoAssetObject = {}
 let marketPrice = 0
 let cryptoBase = ''
 let currentPrice = 0
-let message = `${currentPrice}% decrease. Immediately go to the meditation app.`
-let title = `Uh-oh, ${cryptoBase} dropped.`
+// let message = `${currentPrice}% decrease. Immediately go to the meditation app.`
+// let title = `Uh-oh, ${cryptoBase} dropped.`
+let message = ''
+let title = ''
+
+function calculatePercentage() {
+    const difference = currentPrice - marketPrice
+    const result = Math.floor((difference/marketPrice))
+ 
+    if (result < 1) {
+     currentPrice = result*100
+    }
+ }
+
+function assignValues() {
+    cryptoBase = cryptoAssetObject.data.base
+    marketPrice = cryptoAssetObject.data.amount
+    message = `${currentPrice}% decrease. Immediately go to the meditation app.`
+    title = `Uh-oh, ${cryptoBase} dropped.`
+}
 
 function fetchCryptoAsset() {
     fetch('https://api.coinbase.com/v2/prices/BTC-USD/spot').then(function (response) {
     return response.json();
     }).then(function (data) {
         cryptoAssetObject = data
+        calculatePercentage()
+        assignValues()
     }).catch(function (err) {
     console.log("Something went wrong", err)
     }) 
-}
-
-function calculatePercentage() {
-   const difference = currentPrice - marketPrice
-   const percentage = (difference/marketPrice)*100
-
-   if (percentage < 1) {
-    currentPrice = percentage
-   }
 }
 
 function createNotification() {    
@@ -34,19 +45,8 @@ function createNotification() {
     })
 }
 
-
-function assignValues() {
-    cryptoBase = cryptoAssetObject.data.base
-    marketPrice = cryptoAssetObject.data.amount
-}
-
-// setInterval(() => { 
-//     calculatePercentage()
-//     createNotification()
-// }, 5000)
-
-setInterval(() => {
-    fetchCryptoAsset()
-    assignValues()
-}, 5000)
-
+// setInterval(() => {
+//     fetchCryptoAsset()
+//     console.log("message", message)
+//     console.log("title", title)
+// }, 1000)
