@@ -10,7 +10,6 @@ function fetchCryptoAsset() {
     fetch('https://api.coinbase.com/v2/prices/BTC-USD/spot').then(function (response) {
     return response.json();
     }).then(function (data) {
-        cryptoBase = data.base
         cryptoAssetObject = data
     }).catch(function (err) {
     console.log("Something went wrong", err)
@@ -35,6 +34,7 @@ function createNotification() {
     })
 }
 
+
 function assignValues() {
     cryptoBase = cryptoAssetObject.data.base
     marketPrice = cryptoAssetObject.data.amount
@@ -45,7 +45,8 @@ function assignValues() {
 //     createNotification()
 // }, 5000)
 
-// setInterval(() => {
-//     fetchCryptoAsset()
-//     assignValues()
-// }, 10000)
+setInterval(() => {
+    fetchCryptoAsset()
+    assignValues()
+}, 5000)
+
