@@ -1,12 +1,21 @@
-// TODO: fetch crypto asset base from Coinbase API
-let cryptoAsset = 'BTC'
 
-// TODO: fetch marketPrice from Coinbase API
-let marketPrice = 5
-
-let currentPrice = 10
+let cryptoAssetObject = {}
+let marketPrice = 0
+let cryptoBase = ''
+let currentPrice = 0
 let message = `${currentPrice}% decrease. Immediately go to the meditation app.`
-let title = `Uh-oh, ${cryptoAsset} dropped.`
+let title = `Uh-oh, ${cryptoBase} dropped.`
+
+function fetchCryptoAsset() {
+    fetch('https://api.coinbase.com/v2/prices/BTC-USD/spot').then(function (response) {
+    return response.json();
+    }).then(function (data) {
+        cryptoBase = data.base
+        cryptoAssetObject = data
+    }).catch(function (err) {
+    console.log("Something went wrong", err)
+    }) 
+}
 
 function calculatePercentage() {
    const difference = currentPrice - marketPrice
@@ -26,7 +35,17 @@ function createNotification() {
     })
 }
 
-setInterval(() => { 
-    calculatePercentage()
-    createNotification()
-}, 5000)
+function assignValues() {
+    cryptoBase = cryptoAssetObject.data.base
+    marketPrice = cryptoAssetObject.data.amount
+}
+
+// setInterval(() => { 
+//     calculatePercentage()
+//     createNotification()
+// }, 5000)
+
+// setInterval(() => {
+//     fetchCryptoAsset()
+//     assignValues()
+// }, 10000)
