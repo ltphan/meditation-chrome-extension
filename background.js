@@ -34,15 +34,6 @@ function fetchCryptoAsset() {
     }) 
 }
 
-function createNotification() {    
-    chrome.notifications.create('reminder', {
-        type: 'basic',
-        iconUrl: 'waking-up.png',
-        title: title,
-        message: message
-    })
-}
-
 // setInterval(() => {
 //     fetchCryptoAsset()
 //     console.log("message", message)
