@@ -3,8 +3,6 @@ let cryptoAssetObject = {}
 let marketPrice = 0
 let cryptoBase = ''
 let currentPrice = 0
-// let message = `${currentPrice}% decrease. Immediately go to the meditation app.`
-// let title = `Uh-oh, ${cryptoBase} dropped.`
 let message = ''
 let title = ''
 
