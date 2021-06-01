@@ -3,20 +3,25 @@ const timerDisplay = document.getElementById('timerDisplay')
 const pauseBtn = document.getElementById('pauseBtn')
 const resetBtn = document.getElementById('resetBtn')
 const reminderBtn = document.getElementById('reminderBtn')
+const remindText = document.getElementById('remindText')
 
 const startingMinutes = parseInt(timerDisplay.innerHTML)
 let time = startingMinutes*60
 let minutes = Math.floor(time / 60)
 let seconds  = Math.floor(time % 60)
 let interval = -1
+let reminderOff = false
 
-function createNotification() {    
-    chrome.notifications.create('reminder', {
-        type: 'basic',
-        iconUrl: 'waking-up.png',
-        title: 'Reminder to meditate',
-        message: 'Go to the Waking Up app'
-    })
+function turnNotificationsOn() {
+    if (reminderOff) {
+        remindText.innerHTML = "Notifications Off"
+        chrome.runtime.sendMessage({from: 'pop-up', subject: 'stop'})
+    } else {
+        remindText.innerHTML = "Notifications On"
+        chrome.runtime.sendMessage({from: 'pop-up', subject: 'start'})
+    }
+
+    reminderOff = !reminderOff
 }
 
 function countDown() {
@@ -52,6 +57,6 @@ function resetTimer() {
 }
 
 startBtn.addEventListener('click', startTimer)
-reminderBtn.addEventListener('click', createNotification)
+reminderBtn.addEventListener('click', turnNotificationsOn)
 pauseBtn.addEventListener('click', pauseTimer)
 resetBtn.addEventListener('click', resetTimer)
