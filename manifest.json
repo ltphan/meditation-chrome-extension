@@ -13,14 +13,6 @@
      "default_icon": {
          "128": "waking-up.png"
      }
-    },
-"content_scripts": [
-{
-    "js": ["content-script.js"],
-    "matches": [
-        "<all_urls>"
-    ]
-}
-]
+    }
 }
 
