@@ -35,7 +35,6 @@ function fetchCryptoAsset() {
 }
 
 chrome.runtime.onMessage.addListener(function (msg, sender, response) {
-    console.log("message from background script", msg)
     if ((msg.from === "pop-up") && (msg.subject === "start")) {
         startInterval = setInterval(() => {
             fetchCryptoAsset();
@@ -51,7 +50,6 @@ chrome.runtime.onMessage.addListener(function (msg, sender, response) {
 })
 
 function showNotification() {
-    console.log("show notifiction")
     chrome.notifications.create('reminder', {
         type: 'basic',
         iconUrl: 'waking-up.png',
