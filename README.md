@@ -1,6 +1,6 @@
 # meditation-chrome-extension
 
-A "Same Harris Waking Up" Chrome extension that reminds you to meditate whenever Bitcoin prices drop down. 
+A "Sam Harris Waking Up" Chrome extension that reminds you to meditate whenever Bitcoin prices drop down. 
 
 Plain VanillaJS, HTML/CSS, interacted with Coinbase API to get the market prices of Bitcoin.
 
