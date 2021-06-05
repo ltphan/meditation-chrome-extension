@@ -11,6 +11,8 @@
  "browser_action": {
      "default_popup": "popup.html",
      "default_icon": {
+         "16": "waking-up.png",
+         "48": "waking-up.png",
          "128": "waking-up.png"
      }
     }
