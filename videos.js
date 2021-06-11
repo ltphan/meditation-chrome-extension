@@ -24,10 +24,7 @@ function getVideoURL(obj) {
 
 function randomizeVideos(obj) {
     const videoUrl = getVideoURL(obj)
-    const attr = video.getAttribute("src")
-    console.log(attr)
     video.setAttribute("src", videoUrl)
-    // console.log(video.getAttribute("src"))
 }
 
 window.addEventListener('load', (event) => {
