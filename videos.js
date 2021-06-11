@@ -28,7 +28,5 @@ function randomizeVideos(obj) {
 }
 
 window.addEventListener('load', (event) => {
-    console.log(event)
-    console.log()
     randomizeVideos(videos)
 })
