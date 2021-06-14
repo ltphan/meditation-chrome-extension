@@ -23,7 +23,6 @@ async function getVideoURL() {
 
 async function randomizeVideos() {
     const videoUrl = await getVideoURL()
-    console.log("vid url",videoUrl)
     video.setAttribute("src", videoUrl)
 }
 
