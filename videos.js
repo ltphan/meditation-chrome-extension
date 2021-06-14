@@ -1,6 +1,5 @@
 const video = document.getElementById("youtubeVideo")
 
-// retrieve json file
 function fetchVideoData() {
     return fetch('./data.json').then((response) => {
         return response.json()
