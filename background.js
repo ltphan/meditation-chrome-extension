@@ -7,6 +7,22 @@ let title = ''
 let startInterval = 0
 let percentage = 0
 
+function setValues(data) {
+    currentPrice = marketPrice
+    marketPrice = data.data.amount
+    // TODO set percentage and do calculate price function
+    setMessage("90%")
+    setTitle(data.data.base) 
+}
+
+function setMessage(str) {
+    message = `${str}% decrease. Immediately go to the meditation app.`
+}
+
+function setTitle(str) {
+    title = `Uh-oh, ${str} dropped.`
+}
+
 function assignValues() {
     currentPrice = marketPrice
     cryptoBase = cryptoAssetObject.data.base
@@ -37,6 +53,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, response) {
     if ((msg.from === "pop-up") && (msg.subject === "start")) {
         startInterval = setInterval(async () => {
             const data = await fetchCryptoAsset();
+            setValues(data)
             if ((marketPrice > currentPrice) && currentPrice) {
                 showNotification();
             }
