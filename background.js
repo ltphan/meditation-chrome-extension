@@ -24,11 +24,10 @@ function assignValues() {
 }
 
 function fetchCryptoAsset() {
-    fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot").then(function (response) {
+    return fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot").then(function (response) {
         return response.json();
     }).then(function (data) {
-        cryptoAssetObject = data
-        assignValues();
+        return data
     }).catch(function (err) {
         console.log("Something went wrong", err)
     })
@@ -36,8 +35,8 @@ function fetchCryptoAsset() {
 
 chrome.runtime.onMessage.addListener(function (msg, sender, response) {
     if ((msg.from === "pop-up") && (msg.subject === "start")) {
-        startInterval = setInterval(() => {
-            fetchCryptoAsset();
+        startInterval = setInterval(async () => {
+            const data = await fetchCryptoAsset();
             if ((marketPrice > currentPrice) && currentPrice) {
                 showNotification();
             }
