@@ -1,17 +1,14 @@
-let cryptoAssetObject = {}
 let marketPrice = 0
-let cryptoBase = ''
 let currentPrice = 0
 let message = ''
 let title = ''
 let startInterval = 0
-let percentage = 0
 
 function setValues(data) {
     currentPrice = marketPrice
     marketPrice = data.data.amount
-    // TODO set percentage and do calculate price function
-    setMessage("90%")
+    const percentage = calculatePercentage(currentPrice,marketPrice)
+    setMessage(percentage)
     setTitle(data.data.base) 
 }
 
@@ -23,20 +20,16 @@ function setTitle(str) {
     title = `Uh-oh, ${str} dropped.`
 }
 
-function assignValues() {
-    currentPrice = marketPrice
-    cryptoBase = cryptoAssetObject.data.base
-    marketPrice = cryptoAssetObject.data.amount
-    if (currentPrice) {
-        percentage = (currentPrice - marketPrice) / currentPrice * 100;
+function calculatePercentage(currPrice,marketPrice) {
+    let percentage = 0
+    if (currPrice) {
+        percentage = (currPrice - marketPrice) / currPrice * 100;
         if (percentage < 0) {
             percentage = percentage * (-1);
         }
         percentage = percentage.toFixed(8);
-    }
-
-    message = `${percentage}% decrease. Immediately go to the meditation app.`
-    title = `Uh-oh, ${cryptoBase} dropped.`
+        return percentage
+    } 
 }
 
 function fetchCryptoAsset() {
