@@ -4,5 +4,10 @@
      "https://www.youtube.com/embed/pbU_NzZiEAI",
      "https://www.youtube.com/embed/jZXgrhXJw9o",
      "https://www.youtube.com/embed/XoUBqZZgUEI"
+   ],
+   "cryptoAssets": [
+     "ETH-USD",
+     "BTC-USD",
+     "DOGE-USD"
    ]
 }
