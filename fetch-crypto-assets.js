@@ -1,5 +1,5 @@
 // data comes from json file when fetching different crypto asset params
-const file = "../dadsfsdfsta.json"
+const file = "./data.json"
 
 async function getJSON(jsonFile) {
     try {
@@ -12,10 +12,34 @@ async function getJSON(jsonFile) {
     }
 }
 
-getJSON(file)
+function buildURL(param) {
+    return `https://api.coinbase.com/v2/prices/${param}/spot`
+}
 
-// create a url builder with the crypto asset params
+async function getURLS() {
+    try {
+        const params = await getJSON(file)
+        const urls = params.map((val) => {
+            return createURL(val)
+        })
+        return urls
+    } catch (e) {
+        throw new Error("Error building URL", e)
+    }
+}
 
 // fetch data from a single url
+async function fetchData(url) {
+    try {
+        const response = await fetch(url)
+        const data = await response.json()
+        console.log("DATA", data.data)
+        return data.data
+    } catch (e) {
+        throw new Error("Coinbase API failed", e)
+    }
+}
 
-// create fetch function for all urls
+fetchData("https://api.coinbase.com/v2/prices/DOGE-USD/spot")
+
+// TODO: create fetch function for all urls
