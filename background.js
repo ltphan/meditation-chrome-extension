@@ -1,34 +1,42 @@
-let cryptoAssetObject = {}
 let marketPrice = 0
-let cryptoBase = ''
 let currentPrice = 0
 let message = ''
 let title = ''
 let startInterval = 0
-let percentage = 0
 
-function assignValues() {
+function setValues(data) {
     currentPrice = marketPrice
-    cryptoBase = cryptoAssetObject.data.base
-    marketPrice = cryptoAssetObject.data.amount
-    if (currentPrice) {
-        percentage = (currentPrice - marketPrice) / currentPrice * 100;
+    marketPrice = data.data.amount
+    const percentage = calculatePercentage(currentPrice,marketPrice)
+    setMessage(percentage)
+    setTitle(data.data.base) 
+}
+
+function setMessage(str) {
+    message = `${str}% decrease. Immediately go to the meditation app.`
+}
+
+function setTitle(str) {
+    title = `Uh-oh, ${str} dropped.`
+}
+
+function calculatePercentage(currPrice,marketPrice) {
+    let percentage = 0
+    if (currPrice) {
+        percentage = (currPrice - marketPrice) / currPrice * 100;
         if (percentage < 0) {
             percentage = percentage * (-1);
         }
         percentage = percentage.toFixed(8);
-    }
-
-    message = `${percentage}% decrease. Immediately go to the meditation app.`
-    title = `Uh-oh, ${cryptoBase} dropped.`
+        return percentage
+    } 
 }
 
 function fetchCryptoAsset() {
-    fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot").then(function (response) {
+    return fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot").then(function (response) {
         return response.json();
     }).then(function (data) {
-        cryptoAssetObject = data
-        assignValues();
+        return data
     }).catch(function (err) {
         console.log("Something went wrong", err)
     })
@@ -36,8 +44,9 @@ function fetchCryptoAsset() {
 
 chrome.runtime.onMessage.addListener(function (msg, sender, response) {
     if ((msg.from === "pop-up") && (msg.subject === "start")) {
-        startInterval = setInterval(() => {
-            fetchCryptoAsset();
+        startInterval = setInterval(async () => {
+            const data = await fetchCryptoAsset();
+            setValues(data)
             if ((marketPrice > currentPrice) && currentPrice) {
                 showNotification();
             }
