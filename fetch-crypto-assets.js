@@ -1,11 +1,9 @@
-// data comes from json file when fetching different crypto asset params
 const file = "./data.json"
 
 async function getJSON(jsonFile) {
     try {
         const response = await fetch(jsonFile)
         const data = await response.json()
-        console.log("data", data.cryptoAssets)
         return data.cryptoAssets
     } catch (e) {
         throw new Error("Retrieving JSON failed", e)
@@ -20,7 +18,7 @@ async function getURLS() {
     try {
         const params = await getJSON(file)
         const urls = params.map((val) => {
-            return createURL(val)
+            return buildURL(val)
         })
         return urls
     } catch (e) {
@@ -28,18 +26,40 @@ async function getURLS() {
     }
 }
 
-// fetch data from a single url
 async function fetchData(url) {
     try {
         const response = await fetch(url)
         const data = await response.json()
-        console.log("DATA", data.data)
         return data.data
     } catch (e) {
         throw new Error("Coinbase API failed", e)
     }
 }
 
-fetchData("https://api.coinbase.com/v2/prices/DOGE-USD/spot")
+async function listOfPromises() {
+    try {
+        const urls = await getURLS()
+        const promises = []
+        for (let i = 0; i < urls.length; i++) {
+            promises.push(fetchData(urls[i]))
+        }
 
-// TODO: create fetch function for all urls
+        return promises
+    } catch (e) {
+        throw new Error("Something went wrong building list of promises", e)
+    }
+}
+
+async function fetchCalls() {
+    try {
+        const promises = await listOfPromises()
+        const data = await Promise.allSettled(promises)
+        const result = data.map((val) => {
+            return val.value
+        })
+        return result
+    } catch (e) {
+        throw new Error("Failed to return objects from Coinbase API on multiple fetches", e)
+    }
+    
+}
