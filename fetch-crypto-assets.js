@@ -36,7 +36,7 @@ async function fetchData(url) {
     }
 }
 
-async function listOfPromises() {
+async function buildListOfPromises() {
     try {
         const urls = await getURLS()
         const promises = []
@@ -52,7 +52,7 @@ async function listOfPromises() {
 
 async function fetchCalls() {
     try {
-        const promises = await listOfPromises()
+        const promises = await buildListOfPromises()
         const data = await Promise.allSettled(promises)
         const result = data.map((val) => {
             return val.value
