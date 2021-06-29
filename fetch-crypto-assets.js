@@ -50,7 +50,7 @@ async function buildListOfPromises() {
     }
 }
 
-async function fetchCalls() {
+async function fetchMultipleCalls() {
     try {
         const promises = await buildListOfPromises()
         const data = await Promise.allSettled(promises)
