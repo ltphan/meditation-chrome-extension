@@ -62,10 +62,9 @@ async function fetchCalls() {
 async function getDataFromListOfPromises(promises) {
     try {
         const data = await Promise.allSettled(promises)
-        const result = data.map((val) => {
+        return result = data.map((val) => {
             return val.value
         })
-        return result
     } catch (e) {
         throw new Error("Failed to retrieve data from list of promises", e)
     }
