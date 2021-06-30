@@ -17,10 +17,9 @@ function buildURL(param) {
 async function getURLS() {
     try {
         const params = await getJSON(file)
-        const urls = params.map((val) => {
+        return urls = params.map((val) => {
             return buildURL(val)
         })
-        return urls
     } catch (e) {
         throw new Error("Error building URL", e)
     }
@@ -36,30 +35,39 @@ async function fetchData(url) {
     }
 }
 
-async function buildListOfPromises() {
+async function buildListOfPromises(urls) {
     try {
-        const urls = await getURLS()
         const promises = []
         for (let i = 0; i < urls.length; i++) {
             promises.push(fetchData(urls[i]))
         }
-
         return promises
     } catch (e) {
         throw new Error("Something went wrong building list of promises", e)
     }
 }
 
-async function fetchMultipleCalls() {
+async function fetchCalls() {
     try {
-        const promises = await buildListOfPromises()
+        const urls = await getURLS()
+        const promises = await buildListOfPromises(urls)
+        const data = await getDataFromListOfPromises(promises)
+        return data 
+    } catch (e) {
+        throw new Error("Failed to retrieve promises from Coinbase API on multiple fetches", e)
+    }
+    
+}
+
+async function getDataFromListOfPromises(promises) {
+    try {
         const data = await Promise.allSettled(promises)
         const result = data.map((val) => {
             return val.value
         })
         return result
     } catch (e) {
-        throw new Error("Failed to return objects from Coinbase API on multiple fetches", e)
+        throw new Error("Failed to retrieve data from list of promises", e)
     }
-    
 }
+
