@@ -32,20 +32,21 @@ function calculatePercentage(currPrice,marketPrice) {
     } 
 }
 
-function fetchCryptoAsset() {
-    return fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot").then(function (response) {
-        return response.json();
-    }).then(function (data) {
+async function fetchCryptoAsset() {
+    try {
+        const response = await fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot")
+        const data = await response.json()
         return data
-    }).catch(function (err) {
-        console.log("Something went wrong", err)
-    })
+    } catch (e) {
+        throw Error("Coinbase API failed", e)
+    }
 }
 
 chrome.runtime.onMessage.addListener(function (msg, sender, response) {
     if ((msg.from === "pop-up") && (msg.subject === "start")) {
         startInterval = setInterval(async () => {
             const data = await fetchCryptoAsset();
+            console.log("Data",data)
             setValues(data)
             if ((marketPrice > currentPrice) && currentPrice) {
                 showNotification();
