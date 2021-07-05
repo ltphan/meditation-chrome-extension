@@ -46,9 +46,9 @@ chrome.runtime.onMessage.addListener(function (msg, sender, response) {
     if ((msg.from === "pop-up") && (msg.subject === "start")) {
         startInterval = setInterval(async () => {
             const data = await fetchCryptoAsset();
-            console.log("Data",data)
             setValues(data)
             if ((marketPrice > currentPrice) && currentPrice) {
+                console.log("hit show notification")
                 showNotification();
             }
         }, 10000)
