@@ -48,7 +48,6 @@ chrome.runtime.onMessage.addListener(function (msg, sender, response) {
             const data = await fetchCryptoAsset();
             setValues(data)
             if ((marketPrice > currentPrice) && currentPrice) {
-                console.log("hit show notification")
                 showNotification();
             }
         }, 10000)
